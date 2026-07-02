@@ -157,6 +157,59 @@
 <script src="script.js"></script>
 <!-- Vercel Web Analytics Tracking Script -->
 <script defer src="/_vercel/insights/script.js"></script>
+    <!-- 1. Load Firebase Scripts first -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+    <!-- 2. Link your inputs to the cloud database -->
+    <script>
+      const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_AUTH_DOMAIN",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_STORAGE_BUCKET",
+        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+        appId: "YOUR_APP_ID"
+      };
+
+      firebase.initializeApp(firebaseConfig);
+      const db = firebase.firestore();
+
+      function publishPost() {
+          let title = document.getElementById('postTitle').value;
+          let excerpt = document.getElementById('postExcerpt').value;
+          let image = document.getElementById('postImage').value;
+          let video = document.getElementById('postVideo').value;
+          let content = document.getElementById('postContent').value;
+
+          if (!title || !content) {
+              alert("Please fill out at least the Title and Full Content!");
+              return;
+          }
+
+          db.collection("posts").add({
+              title: title,
+              excerpt: excerpt,
+              image: image,
+              video: video,
+              content: content,
+              createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          })
+          .then(() => {
+              alert("Transmission successful! Post saved to the cloud.");
+              
+              // Clears your inputs so you can write another post
+              document.getElementById('postTitle').value = "";
+              document.getElementById('postExcerpt').value = "";
+              document.getElementById('postImage').value = "";
+              document.getElementById('postVideo').value = "";
+              document.getElementById('postContent').value = "";
+          })
+          .catch((error) => {
+              console.error("Error saving transmission: ", error);
+          });
+      }
+    </script>
 </body>
 </html>
 

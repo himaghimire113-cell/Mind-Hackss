@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Cosmic Chronicles — A Space Explorer's Blog</title>
+<link rel="stylesheet" href="style.css" />
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- ============== COSMIC BACKGROUND ============== -->
+<div class="cosmos">
+  <div class="stars stars-1"></div>
+  <div class="stars stars-2"></div>
+  <div class="stars stars-3"></div>
+  <div class="nebula"></div>
+  <div class="orbit-system">
+    <div class="orbit orbit-1"><div class="planet planet-1"></div></div>
+    <div class="orbit orbit-2"><div class="planet planet-2"></div></div>
+    <div class="orbit orbit-3"><div class="planet planet-3"></div></div>
+  </div>
+  <div class="shooting-star"></div>
+  <div class="shooting-star s2"></div>
+</div>
+
+<!-- ============== NAVBAR ============== -->
+<nav class="navbar glass">
+  <div class="nav-brand">
+    <span class="logo-orb"></span>
+    <h1>Health<span class="accent"> Guide</span></h1>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#home" class="nav-link active">Home</a></li>
+    <li><a href="#blog" class="nav-link">Blog</a></li>
+    <li><a href="#about" class="nav-link">About</a></li>
+    <li><button id="adminToggle" class="btn-admin">⚙ Admin</button></li>
+  </ul>
+  <button class="mobile-menu" id="mobileMenu">☰</button>
+</nav>
+
+<!-- ============== HERO ============== -->
+<section id="home" class="hero">
+  <div class="hero-content">
+    <p class="hero-tag">🚀 WELCOME ABOARD, EXPLORER</p>
+    <h2 class="hero-title">
+      Journey Through the <span class="glow-text">World Of Health</span>
+    </h2>
+    <p class="hero-sub">
+      Transform your life with powerful health insights, science-backed wellness tips, and daily habits that build a stronger body, sharper mind, and healthier future.
+    </p>
+    <div class="hero-buttons">
+      <a href="#blog" class="btn btn-primary">Explore Posts ✨</a>
+      <a href="#about" class="btn btn-ghost">About Mission</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><span id="statPosts">0</span><small>Posts</small></div>
+      <div class="stat"><span>∞</span><small>Galaxies</small></div>
+      <div class="stat"><span>24/7</span><small>Transmission</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== BLOG GRID ============== -->
+<section id="blog" class="blog-section">
+  <div class="section-header">
+    <h2 class="section-title">Latest <span class="glow-text">Transmissions</span></h2>
+    <p class="section-sub">Fresh signals from across the void</p>
+  </div>
+  <div id="blogGrid" class="blog-grid"></div>
+</section>
+
+<!-- ============== ABOUT ============== -->
+<section id="about" class="about-section glass-panel">
+  <h2>About the <span class="glow-text">Mission</span></h2>
+  <p>
+    We aim to make reliable health information simple, accessible, and actionable so everyone can build a healthier future.
+  </p>
+</section>
+<nav>
+
+</nav>
+<!-- ============== FOOTER ============== -->
+<footer class="footer glass">
+  <p>© Health Guide — All rights reserved 🌌</p>
+</footer>
+
+<!-- ============== POST MODAL ============== -->
+<div id="postModal" class="modal">
+  <div class="modal-content glass-panel">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<!-- ============== ADMIN LOGIN ============== -->
+<div id="adminLogin" class="modal">
+  <div class="modal-content glass-panel login-box">
+    <button class="modal-close" id="loginClose">✕</button>
+    <h2>🔐 Admin Access</h2>
+    <p class="hint">Default password: <code>admin123</code></p>
+    <input type="password" id="adminPassword" placeholder="Enter password" />
+    <button class="btn btn-primary" id="loginSubmit">Enter Command Center</button>
+    <p id="loginError" class="error-msg"></p>
+  </div>
+</div>
+
+<!-- ============== ADMIN PANEL ============== -->
+<section id="adminPanel" class="admin-panel hidden">
+  <div class="admin-header glass-panel">
+    <h2>⚙ Command Center</h2>
+    <button class="btn btn-ghost" id="adminLogout">Logout</button>
+  </div>
+
+  <div class="admin-body">
+    <div class="admin-form glass-panel">
+      <h3 id="formTitle">🛰️ New Transmission</h3>
+      <input type="hidden" id="editId" />
+      <label>Title</label>
+      <input type="text" id="postTitle" placeholder="e.g. Black Holes Explained" />
+
+      <label>Intro / Excerpt</label>
+      <textarea id="postIntro" placeholder="A short teaser..."></textarea>
+
+      <label>Featured Image URL</label>
+      <input type="url" id="postImage" placeholder="https://..." />
+
+      <label>Video Embed URL (YouTube / Facebook / Instagram)</label>
+      <input type="url" id="postVideo" placeholder="https://youtube.com/watch?v=..." />
+
+      <label>Full Content</label>
+      <textarea id="postContent" rows="6" placeholder="Write the full post..."></textarea>
+
+      <div class="form-actions">
+        <button class="btn btn-primary" id="savePost">💾 Save Transmission</button>
+        <button class="btn btn-ghost" id="cancelEdit">Cancel</button>
+      </div>
+    </div>
+
+    <div class="admin-list glass-panel">
+      <h3>📡 Manage Posts</h3>
+      <div id="adminList"></div>
+    </div>
+  </div>
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>
+

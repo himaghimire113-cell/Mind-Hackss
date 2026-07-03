@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
+<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-N210L77JXK"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-N210L77JXK');
 </script>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Cosmic Chronicles — A Space Explorer's Blog</title>
+<title>Health Guide — Your Wellness Journey</title>
 <link rel="stylesheet" href="style.css" />
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -39,7 +38,7 @@
     <span class="logo-orb"></span>
     <h1>Health<span class="accent"> Guide</span></h1>
   </div>
-  <ul class="nav-links">
+  <ul class="nav-links" id="navLinks">
     <li><a href="#home" class="nav-link active">Home</a></li>
     <li><a href="#blog" class="nav-link">Blog</a></li>
     <li><a href="#about" class="nav-link">About</a></li>
@@ -64,8 +63,8 @@
     </div>
     <div class="hero-stats">
       <div class="stat"><span id="statPosts">0</span><small>Posts</small></div>
-      <div class="stat"><span>∞</span><small>Galaxies</small></div>
-      <div class="stat"><span>24/7</span><small>Transmission</small></div>
+      <div class="stat"><span>∞</span><small>Possibilities</small></div>
+      <div class="stat"><span>24/7</span><small>Wellness</small></div>
     </div>
   </div>
 </section>
@@ -74,7 +73,7 @@
 <section id="blog" class="blog-section">
   <div class="section-header">
     <h2 class="section-title">Latest <span class="glow-text">Transmissions</span></h2>
-    <p class="section-sub">Fresh signals from across the void</p>
+    <p class="section-sub">Fresh insights for your health journey</p>
   </div>
   <div id="blogGrid" class="blog-grid"></div>
 </section>
@@ -83,9 +82,8 @@
 <section id="about" class="about-section glass-panel">
   <h2>About the <span class="glow-text">Mission</span></h2>
   <p>
-    Health Guide is a digital observatory where curious minds share
-    discoveries from the farthest reaches of science, technology, and imagination.
-    Every post is a transmission — a signal worth chasing.
+    Health Guide is your digital companion for wellness discoveries. 
+    Every post is a transmission — a signal worth chasing toward a healthier you.
   </p>
 </section>
 
@@ -126,7 +124,7 @@
       <h3 id="formTitle">🛰️ New Transmission</h3>
       <input type="hidden" id="editId" />
       <label>Title</label>
-      <input type="text" id="postTitle" placeholder="e.g. Black Holes Explained" />
+      <input type="text" id="postTitle" placeholder="e.g. 10 Health Tips" />
 
       <label>Intro / Excerpt</label>
       <textarea id="postIntro" placeholder="A short teaser..."></textarea>

@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cosmic Explorer — Dispatches from the Edge of the Universe</title>
+<meta name="description" content="A blog of transmissions from deep space — stories, sightings, and signals.">
+
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-N210L77JXK"></script>
 <script>
@@ -9,149 +14,65 @@
   gtag('js', new Date());
   gtag('config', 'G-N210L77JXK');
 </script>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Health Guide — Your Wellness Journey</title>
-<link rel="stylesheet" href="style.css" />
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- ============== COSMIC BACKGROUND ============== -->
-<div class="cosmos">
-  <div class="stars stars-1"></div>
-  <div class="stars stars-2"></div>
-  <div class="stars stars-3"></div>
-  <div class="nebula"></div>
-  <div class="orbit-system">
-    <div class="orbit orbit-1"><div class="planet planet-1"></div></div>
-    <div class="orbit orbit-2"><div class="planet planet-2"></div></div>
-    <div class="orbit orbit-3"><div class="planet planet-3"></div></div>
-  </div>
-  <div class="shooting-star"></div>
-  <div class="shooting-star s2"></div>
+<div class="space-bg" aria-hidden="true">
+  <div class="stars stars--far"></div>
+  <div class="stars stars--mid"></div>
+  <div class="stars stars--near"></div>
+  <div class="nebula nebula--cyan"></div>
+  <div class="nebula nebula--purple"></div>
+  <div class="shooting-star shooting-star--one"></div>
+  <div class="shooting-star shooting-star--two"></div>
 </div>
 
-<!-- ============== NAVBAR ============== -->
-<nav class="navbar glass">
-  <div class="nav-brand">
-    <span class="logo-orb"></span>
-    <h1>Health<span class="accent"> Guide</span></h1>
-  </div>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="#home" class="nav-link active">Home</a></li>
-    <li><a href="#blog" class="nav-link">Blog</a></li>
-    <li><a href="#about" class="nav-link">About</a></li>
-    <li><button id="adminToggle" class="btn-admin">⚙ Admin</button></li>
-  </ul>
-  <button class="mobile-menu" id="mobileMenu">☰</button>
-</nav>
+<header class="site-header">
+  <a href="index.html" class="brand">
+    <span class="brand-dot"></span>
+    COSMIC <span>EXPLORER</span>
+  </a>
+  <a href="admin.html" class="nav-link">Admin</a>
+</header>
 
-<!-- ============== HERO ============== -->
-<section id="home" class="hero">
-  <div class="hero-content">
-    <p class="hero-tag">🚀 WELCOME ABOARD, EXPLORER</p>
-    <h2 class="hero-title">
-      Journey Through the <span class="glow-text"> World Of Health</span>
-    </h2>
-    <p class="hero-sub">
-      Transform your life with powerful health insights, science-backed wellness tips, and daily habits that build a stronger body, sharper mind, and healthier future.
-    </p>
-    <div class="hero-buttons">
-      <a href="#blog" class="btn btn-primary">Explore Posts ✨</a>
-      <a href="#about" class="btn btn-ghost">About Mission</a>
-    </div>
-    <div class="hero-stats">
-      <div class="stat"><span id="statPosts">0</span><small>Posts</small></div>
-      <div class="stat"><span>∞</span><small>Possibilities</small></div>
-      <div class="stat"><span>24/7</span><small>Wellness</small></div>
-    </div>
+<section class="hero">
+  <p class="hero-eyebrow">Transmission Log</p>
+  <h1>Dispatches from the<br>edge of the universe</h1>
+  <p>Field notes, sightings, and stories from an ongoing journey through deep space.</p>
+
+  <div class="orbit-system" aria-hidden="true">
+    <div class="orbit-core"></div>
+    <div class="orbit-ring orbit-ring--1"><div class="planet planet--cyan"></div></div>
+    <div class="orbit-ring orbit-ring--2"><div class="planet planet--gold"></div></div>
+    <div class="orbit-ring orbit-ring--3"><div class="planet planet--purple"></div></div>
   </div>
 </section>
 
-<!-- ============== BLOG GRID ============== -->
-<section id="blog" class="blog-section">
-  <div class="section-header">
-    <h2 class="section-title">Latest <span class="glow-text">Transmissions</span></h2>
-    <p class="section-sub">Fresh insights for your health journey</p>
+<main>
+  <h2 class="section-label">Latest Transmissions</h2>
+  <div class="post-grid" id="postGrid">
+    <div class="loading-state">Scanning the galaxy for posts…</div>
   </div>
-  <div id="blogGrid" class="blog-grid"></div>
-</section>
+</main>
 
-<!-- ============== ABOUT ============== -->
-<section id="about" class="about-section glass-panel">
-  <h2>About the <span class="glow-text">Mission</span></h2>
-  <p>
-    Health Guide is your digital companion for wellness discoveries. 
-    Every post is a transmission — a signal worth chasing toward a healthier you.
-  </p>
-</section>
-
-<!-- ============== FOOTER ============== -->
-<footer class="footer glass">
-  <p>© Health Guide — All Rights Reserved. 🌌</p>
+<footer>
+  Broadcasting from somewhere past the asteroid belt · Cosmic Explorer
 </footer>
 
-<!-- ============== POST MODAL ============== -->
-<div id="postModal" class="modal">
-  <div class="modal-content glass-panel">
-    <button class="modal-close" id="modalClose">✕</button>
-    <div id="modalBody"></div>
+<!-- Full post modal -->
+<div class="modal-overlay" id="postModal">
+  <div class="modal-box">
+    <button class="modal-close" id="modalCloseBtn" aria-label="Close">✕</button>
+    <h2 id="modalTitle"></h2>
+    <span class="post-date" id="modalDate"></span>
+    <div class="modal-media" id="modalMedia"></div>
+    <div class="modal-body" id="modalBody"></div>
   </div>
 </div>
 
-<!-- ============== ADMIN LOGIN ============== -->
-<div id="adminLogin" class="modal">
-  <div class="modal-content glass-panel login-box">
-    <button class="modal-close" id="loginClose">✕</button>
-    <h2>🔐 Admin Access</h2>
-    <p class="hint">Default password: <code>admin123</code></p>
-    <input type="password" id="adminPassword" placeholder="Enter password" />
-    <button class="btn btn-primary" id="loginSubmit">Enter Command Center</button>
-    <p id="loginError" class="error-msg"></p>
-  </div>
-</div>
-
-<!-- ============== ADMIN PANEL ============== -->
-<section id="adminPanel" class="admin-panel hidden">
-  <div class="admin-header glass-panel">
-    <h2>⚙ Command Center</h2>
-    <button class="btn btn-ghost" id="adminLogout">Logout</button>
-  </div>
-
-  <div class="admin-body">
-    <div class="admin-form glass-panel">
-      <h3 id="formTitle">🛰️ New Transmission</h3>
-      <input type="hidden" id="editId" />
-      <label>Title</label>
-      <input type="text" id="postTitle" placeholder="e.g. 10 Health Tips" />
-
-      <label>Intro / Excerpt</label>
-      <textarea id="postIntro" placeholder="A short teaser..."></textarea>
-
-      <label>Featured Image URL</label>
-      <input type="url" id="postImage" placeholder="https://..." />
-
-      <label>Video Embed URL (YouTube / Facebook / Instagram)</label>
-      <input type="url" id="postVideo" placeholder="https://youtube.com/watch?v=..." />
-
-      <label>Full Content</label>
-      <textarea id="postContent" rows="6" placeholder="Write the full post..."></textarea>
-
-      <div class="form-actions">
-        <button class="btn btn-primary" id="savePost">💾 Save Transmission</button>
-        <button class="btn btn-ghost" id="cancelEdit">Cancel</button>
-      </div>
-    </div>
-
-    <div class="admin-list glass-panel">
-      <h3>📡 Manage Posts</h3>
-      <div id="adminList"></div>
-    </div>
-  </div>
-</section>
-
+<script src="https://cdn.jsdelivr.net/npm/appwrite@26.1.0"></script>
 <script src="script.js"></script>
 </body>
 </html>
-

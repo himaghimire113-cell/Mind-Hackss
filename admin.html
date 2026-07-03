@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mission Control — Cosmic Explorer Admin</title>
+<meta name="robots" content="noindex, nofollow">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-N210L77JXK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-N210L77JXK');
+</script>
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="space-bg" aria-hidden="true">
+  <div class="stars stars--far"></div>
+  <div class="stars stars--mid"></div>
+  <div class="stars stars--near"></div>
+  <div class="nebula nebula--cyan"></div>
+  <div class="nebula nebula--purple"></div>
+  <div class="shooting-star shooting-star--one"></div>
+  <div class="shooting-star shooting-star--two"></div>
+</div>
+
+<header class="site-header">
+  <a href="index.html" class="brand">
+    <span class="brand-dot"></span>
+    COSMIC <span>EXPLORER</span>
+  </a>
+  <a href="index.html" class="nav-link">View blog</a>
+</header>
+
+<div class="admin-shell">
+  <h2 class="section-label">Mission Control</h2>
+
+  <!-- LOGIN -->
+  <div class="panel" id="loginPanel" style="display:none;">
+    <h2>Sign in</h2>
+    <p style="color:var(--text-dim); font-size:0.85rem; margin-top:-0.6rem;">
+      Sign in with the Appwrite user account you created for yourself in the Appwrite console (Auth → Users).
+    </p>
+    <form id="loginForm">
+      <label for="loginEmail">Email</label>
+      <input type="email" id="loginEmail" required autocomplete="username">
+      <label for="loginPassword">Password</label>
+      <input type="password" id="loginPassword" required autocomplete="current-password">
+      <div class="btn-row">
+        <button type="submit" class="btn btn-primary">Sign in</button>
+      </div>
+      <div class="status-msg" id="loginStatus"></div>
+    </form>
+  </div>
+
+  <!-- DASHBOARD (shown after login) -->
+  <div id="dashboardPanel" style="display:none;">
+    <div class="session-bar">
+      <span>Signed in as <strong id="sessionEmail"></strong></span>
+      <button class="btn btn-ghost" id="logoutBtn">Sign out</button>
+    </div>
+
+    <div class="panel">
+      <h2 id="formTitleLabel">Publish a new post</h2>
+      <form id="postForm">
+        <label for="postTitle">Title</label>
+        <input type="text" id="postTitle" placeholder="Signal from Kepler-452b" required>
+
+        <label for="postContent">Post content</label>
+        <textarea id="postContent" placeholder="Write your dispatch…" required></textarea>
+
+        <label for="postMediaType">Media type</label>
+        <select id="postMediaType">
+          <option value="none">None</option>
+          <option value="auto">Auto-detect from URL</option>
+          <option value="image">Image</option>
+          <option value="youtube">YouTube video</option>
+          <option value="facebook">Facebook video</option>
+          <option value="instagram">Instagram post</option>
+        </select>
+
+        <label for="postMediaUrl">Media URL (image link, or YouTube / Facebook / Instagram video URL)</label>
+        <input type="url" id="postMediaUrl" placeholder="https://…">
+
+        <div class="btn-row">
+          <button type="submit" class="btn btn-primary" id="submitBtn">Publish post</button>
+          <button type="button" class="btn btn-ghost" id="resetFormBtn">Clear form</button>
+        </div>
+        <div class="status-msg" id="formStatus"></div>
+      </form>
+    </div>
+
+    <div class="panel">
+      <h2>Your posts</h2>
+      <div id="adminPostList">
+        <div class="loading-state">Loading…</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/appwrite@26.1.0"></script>
+<script src="script.js"></script>
+</body>
+</html>

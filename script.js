@@ -1,6 +1,31 @@
 /* =========================================================
    COSMIC CHRONICLES — Blog Engine + Admin CRUD
    ========================================================= */
+import { Client, Databases } from "https://cdn.skypack.dev/appwrite"; // Using CDN for browser environment
+import { Client, Databases } from "https://cdn.skypack.dev/appwrite"; // Using CDN for browser environment
+
+const client = new Client();
+client
+    .setEndpoint('https://fra.cloud.appwrite.io/v1')
+    .setProject('health-guide');
+
+const databases = new Databases(client);
+
+async function loadPosts() {
+    try {
+        const response = await databases.listDocuments(
+            '6a4686e10005fa4c5c92', // Your Database ID
+            'blog_posts'             // Your Collection ID
+        );
+        
+        console.log("Data from Appwrite:", response.documents); // This will log your new row
+    } catch (error) {
+        console.error("Error loading posts:", error);
+    }
+}
+loadPosts();
+
+// Call the function to test the connection
 
 const STORAGE_KEY = 'cosmicChroniclesPosts';
 const ADMIN_PASS = 'admin123';

@@ -1,16 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-648BS6BLC2"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  
-  function gtag() { dataLayer.push(arguments); }
-  gtag('js', new Date());
-  
-  gtag('config', 'G-648BS6BLC2');
-</script>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Cosmic Chronicles — A Space Explorer's Blog</title>
@@ -54,7 +44,7 @@
   <div class="hero-content">
     <p class="hero-tag">🚀 WELCOME ABOARD, EXPLORER</p>
     <h2 class="hero-title">
-      Journey Through the <span class="glow-text">World Of Health</span>
+      Journey Through the <span class="glow-text"> World Of Health</span>
     </h2>
     <p class="hero-sub">
       Transform your life with powerful health insights, science-backed wellness tips, and daily habits that build a stronger body, sharper mind, and healthier future.
@@ -84,15 +74,15 @@
 <section id="about" class="about-section glass-panel">
   <h2>About the <span class="glow-text">Mission</span></h2>
   <p>
-    We aim to make reliable health information simple, accessible, and actionable so everyone can build a healthier future.
+    Health Guide is a digital observatory where curious minds share
+    discoveries from the farthest reaches of science, technology, and imagination.
+    Every post is a transmission — a signal worth chasing.
   </p>
 </section>
-<nav>
 
-</nav>
 <!-- ============== FOOTER ============== -->
 <footer class="footer glass">
-  <p>© Health Guide — All rights reserved 🌌</p>
+  <p>© Health Guide — All Rights Reserved. 🌌</p>
 </footer>
 
 <!-- ============== POST MODAL ============== -->
@@ -142,8 +132,7 @@
       <textarea id="postContent" rows="6" placeholder="Write the full post..."></textarea>
 
       <div class="form-actions">
-        <!-- Added onclick function directly to your Save button -->
-        <button class="btn btn-primary" id="savePost" onclick="publishPost()">💾 Save Transmission</button>
+        <button class="btn btn-primary" id="savePost">💾 Save Transmission</button>
         <button class="btn btn-ghost" id="cancelEdit">Cancel</button>
       </div>
     </div>
@@ -156,67 +145,6 @@
 </section>
 
 <script src="script.js"></script>
-<!-- Vercel Web Analytics Tracking Script -->
-<script defer src="/_vercel/insights/script.js"></script>
-
-<!-- ============== FIREBASE SETUP ============== -->
-<!-- 1. Load Firebase Compatibility Scripts -->
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-
-<!-- 2. Link your inputs to the cloud database -->
-<script>
-  // Your real app configuration keys
-  const firebaseConfig = {
-    apiKey: "AIzaSyBVD4VIxCJAXoMbhSmsFi1VeA38RP9aErM",
-    authDomain: "mind-hackss.firebaseapp.com",
-    projectId: "mind-hackss",
-    storageBucket: "mind-hackss.firebasestorage.app",
-    messagingSenderId: "522496244281",
-    appId: "1:522496244281:web:2ae109ab27b4737ed5ebe8",
-    measurementId: "G-B3PV6KW30X"
-  };
-
-  // Initialize Firebase Cloud Connectors
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-
-  // Core Function to Send Data to the Cloud
-  function publishPost() {
-      let title = document.getElementById('postTitle').value;
-      let excerpt = document.getElementById('postIntro').value; // Fixed to match your HTML id="postIntro"
-      let image = document.getElementById('postImage').value;
-      let video = document.getElementById('postVideo').value;
-      let content = document.getElementById('postContent').value;
-
-      if (!title || !content) {
-          alert("Please fill out at least the Title and Full Content!");
-          return;
-      }
-
-      db.collection("posts").add({
-          title: title,
-          excerpt: excerpt,
-          image: image,
-          video: video,
-          content: content,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      })
-      .then(() => {
-          alert("Transmission successful! Post saved to the cloud.");
-          
-          // Automatically clears fields for your next entry
-          document.getElementById('postTitle').value = "";
-          document.getElementById('postIntro').value = "";
-          document.getElementById('postImage').value = "";
-          document.getElementById('postVideo').value = "";
-          document.getElementById('postContent').value = "";
-      })
-      .catch((error) => {
-          console.error("Error saving transmission: ", error);
-          alert("Error saving transmission. Check dev console.");
-      });
-  }
-</script>
 </body>
 </html>
+

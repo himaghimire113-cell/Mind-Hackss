@@ -3,7 +3,7 @@
    ========================================================= */
 
 const STORAGE_KEY = 'cosmicChroniclesPosts';
-const ADMIN_PASS = '@@&&$$123';
+const ADMIN_PASS = 'admin123';
 
 /* ---------- DEFAULT PLACEHOLDER POSTS ---------- */
 const defaultPosts = [

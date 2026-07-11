@@ -3,108 +3,247 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mission Control — Cosmic Explorer Admin</title>
-<meta name="robots" content="noindex, nofollow">
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-N210L77JXK"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-N210L77JXK');
-</script>
-
+<title>Health Years — Admin Panel</title>
 <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body data-page="admin" class="admin-body">
 
-<div class="space-bg" aria-hidden="true">
-  <div class="stars stars--far"></div>
-  <div class="stars stars--mid"></div>
-  <div class="stars stars--near"></div>
-  <div class="nebula nebula--cyan"></div>
-  <div class="nebula nebula--purple"></div>
-  <div class="shooting-star shooting-star--one"></div>
-  <div class="shooting-star shooting-star--two"></div>
-</div>
-
-<header class="site-header">
-  <a href="index.html" class="brand">
-    <span class="brand-dot"></span>
-    COSMIC <span>EXPLORER</span>
-  </a>
-  <a href="index.html" class="nav-link">View blog</a>
-</header>
-
-<div class="admin-shell">
-  <h2 class="section-label">Mission Control</h2>
-
-  <!-- LOGIN -->
-  <div class="panel" id="loginPanel" style="display:none;">
-    <h2>Sign in</h2>
-    <p style="color:var(--text-dim); font-size:0.85rem; margin-top:-0.6rem;">
-      Sign in with the Appwrite user account you created for yourself in the Appwrite console (Auth → Users).
-    </p>
-    <form id="loginForm">
-      <label for="loginEmail">Email</label>
-      <input type="email" id="loginEmail" required autocomplete="username">
-      <label for="loginPassword">Password</label>
-      <input type="password" id="loginPassword" required autocomplete="current-password">
-      <div class="btn-row">
-        <button type="submit" class="btn btn-primary">Sign in</button>
-      </div>
-      <div class="status-msg" id="loginStatus"></div>
-    </form>
-  </div>
-
-  <!-- DASHBOARD (shown after login) -->
-  <div id="dashboardPanel" style="display:none;">
-    <div class="session-bar">
-      <span>Signed in as <strong id="sessionEmail"></strong></span>
-      <button class="btn btn-ghost" id="logoutBtn">Sign out</button>
-    </div>
-
-    <div class="panel">
-      <h2 id="formTitleLabel">Publish a new post</h2>
-      <form id="postForm">
-        <label for="postTitle">Title</label>
-        <input type="text" id="postTitle" placeholder="Signal from Kepler-452b" required>
-
-        <label for="postContent">Post content</label>
-        <textarea id="postContent" placeholder="Write your dispatch…" required></textarea>
-
-        <label for="postMediaType">Media type</label>
-        <select id="postMediaType">
-          <option value="none">None</option>
-          <option value="auto">Auto-detect from URL</option>
-          <option value="image">Image</option>
-          <option value="youtube">YouTube video</option>
-          <option value="facebook">Facebook video</option>
-          <option value="instagram">Instagram post</option>
-        </select>
-
-        <label for="postMediaUrl">Media URL (image link, or YouTube / Facebook / Instagram video URL)</label>
-        <input type="url" id="postMediaUrl" placeholder="https://…">
-
-        <div class="btn-row">
-          <button type="submit" class="btn btn-primary" id="submitBtn">Publish post</button>
-          <button type="button" class="btn btn-ghost" id="resetFormBtn">Clear form</button>
+  <!-- ============ LOGIN ============ -->
+  <div id="loginWrap" class="login-wrap">
+    <div class="login-card">
+      <h1 style="font-size:1.5rem">Health Years admin</h1>
+      <p style="color:var(--ink-muted)">Sign in to write and manage articles.</p>
+      <form id="loginForm" class="form-grid">
+        <div class="field">
+          <label for="loginPassword">Admin password</label>
+          <input type="password" id="loginPassword" required>
+          <p class="hint">Default password is <strong>healthyears2026</strong> — change it from Settings after you sign in.</p>
         </div>
-        <div class="status-msg" id="formStatus"></div>
+        <p id="loginError" style="color:var(--danger);font-weight:700;min-height:1.2em"></p>
+        <button type="submit" class="btn btn-primary btn-block">Sign in</button>
       </form>
-    </div>
-
-    <div class="panel">
-      <h2>Your posts</h2>
-      <div id="adminPostList">
-        <div class="loading-state">Loading…</div>
-      </div>
+      <p style="margin-top:1rem"><a href="index.html">← Back to Health Years</a></p>
     </div>
   </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/appwrite@26.1.0"></script>
-<script src="script.js"></script>
+  <!-- ============ DASHBOARD ============ -->
+  <div id="adminDashboard" style="display:none">
+    <header class="admin-header">
+      <div class="container">
+        <h1>Health Years — Admin</h1>
+        <div style="display:flex;gap:1rem;align-items:center">
+          <a href="index.html" target="_blank">View site ↗</a>
+          <button id="logoutBtn" class="btn btn-ghost btn-sm">Sign out</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="admin-shell">
+      <div class="admin-tabs">
+        <button class="active" data-panel="panel-write">Write &amp; Publish</button>
+        <button data-panel="panel-manage">Manage Articles</button>
+        <button data-panel="panel-subscribers">Subscribers</button>
+        <button data-panel="panel-settings">Settings</button>
+      </div>
+
+      <!-- ===== WRITE / EDIT ===== -->
+      <section id="panel-write" class="admin-panel active">
+        <div class="card">
+          <h2 id="formTitle">Write a new article</h2>
+          <form id="postForm" class="form-grid">
+            <input type="hidden" id="editingPostId">
+
+            <div class="form-grid two-col">
+              <div class="field">
+                <label for="postTitle">Title</label>
+                <input type="text" id="postTitle" required maxlength="120">
+              </div>
+              <div class="field">
+                <label for="postTags">Tags (comma separated)</label>
+                <input type="text" id="postTags" placeholder="Heart Health, Habits">
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="postExcerpt">Short summary</label>
+              <textarea id="postExcerpt" maxlength="220" placeholder="One or two sentences shown on the article card."></textarea>
+            </div>
+
+            <div class="form-grid two-col">
+              <div class="field">
+                <label for="postImage">Image URL</label>
+                <input type="url" id="postImage" placeholder="https://example.com/photo.jpg">
+                <p class="hint">Shown as the article's cover photo.</p>
+              </div>
+              <div class="field">
+                <label for="postVideo">Video embed URL</label>
+                <input type="url" id="postVideo" placeholder="https://www.youtube.com/embed/VIDEO_ID">
+                <p class="hint">Use the "embed" link from YouTube/Vimeo (Share → Embed).</p>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="postEditor">Article content</label>
+              <div class="editor-toolbar">
+                <button type="button" id="boldBtn"><strong>B</strong></button>
+                <button type="button" id="italicBtn"><em>I</em></button>
+                <button type="button" id="underlineBtn" style="text-decoration:underline">U</button>
+                <select id="fontSizeSelect" aria-label="Font size for selected text">
+                  <option value="">Font size…</option>
+                  <option value="small">Small</option>
+                  <option value="normal">Normal</option>
+                  <option value="large">Large</option>
+                  <option value="xlarge">Extra large</option>
+                </select>
+                <button type="button" class="color-swatch" style="background:#1B5E4F" data-color="#1B5E4F" aria-label="Teal text"></button>
+                <button type="button" class="color-swatch" style="background:#C77F1F" data-color="#C77F1F" aria-label="Gold text"></button>
+                <button type="button" class="color-swatch" style="background:#B3261E" data-color="#B3261E" aria-label="Red text"></button>
+                <button type="button" class="color-swatch" style="background:#232323" data-color="#232323" aria-label="Black text"></button>
+                <label class="sr-only" for="customColor">Custom text color</label>
+                <input type="color" id="customColor" value="#1B5E4F" title="Custom color">
+                <button type="button" id="clearFormatBtn">Clear formatting</button>
+              </div>
+              <div id="postEditor" class="rich-editor" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Article content"></div>
+              <p class="hint">Select any text above, then click a size or color to style just that selection.</p>
+            </div>
+
+            <div class="form-grid two-col">
+              <div class="field">
+                <label for="promoLabel">Promotional / affiliate link label (optional)</label>
+                <input type="text" id="promoLabel" placeholder="Our favorite blood pressure monitor">
+              </div>
+              <div class="field">
+                <label for="promoUrl">Promotional / affiliate link URL (optional)</label>
+                <input type="url" id="promoUrl" placeholder="https://example.com/product">
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="postReviewedBy">Medically reviewed by (optional)</label>
+              <input type="text" id="postReviewedBy" placeholder="Dr. Jane Smith, MD">
+              <p class="hint">Shown as a trust badge on the article. Leave blank to hide it.</p>
+            </div>
+
+            <div class="form-grid two-col">
+              <div class="checkbox-field">
+                <input type="checkbox" id="postFeatured">
+                <label for="postFeatured" style="margin:0">Feature this article on the homepage</label>
+              </div>
+              <div class="checkbox-field">
+                <input type="checkbox" id="postNotify">
+                <label for="postNotify" style="margin:0">Notify email subscribers about this article</label>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:.75rem;flex-wrap:wrap">
+              <button type="submit" id="submitPostBtn" class="btn btn-primary">Publish article</button>
+              <button type="button" id="cancelEditBtn" class="btn btn-outline" style="display:none">Cancel edit</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- ===== MANAGE ===== -->
+      <section id="panel-manage" class="admin-panel">
+        <div class="card">
+          <h2>Manage articles</h2>
+          <div style="overflow-x:auto">
+            <table class="admin-table">
+              <thead>
+                <tr><th>Article</th><th>Media</th><th>Promo link</th><th>Status</th><th>Actions</th></tr>
+              </thead>
+              <tbody id="postTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== SUBSCRIBERS ===== -->
+      <section id="panel-subscribers" class="admin-panel">
+        <div class="card">
+          <h2>Newsletter subscribers (<span id="subscriberCount">0</span>)</h2>
+          <p class="hint">This list is stored in this browser. Connect Firebase in Settings to sync subscribers and send real emails from a backend.</p>
+          <button id="exportSubsBtn" class="btn btn-ghost btn-sm" style="margin-bottom:1rem">Export as CSV</button>
+          <div style="overflow-x:auto">
+            <table class="admin-table">
+              <thead><tr><th>Email</th><th>Subscribed</th><th>Source</th></tr></thead>
+              <tbody id="subscriberTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== SETTINGS ===== -->
+      <section id="panel-settings" class="admin-panel">
+        <div class="card">
+          <h2>Site settings</h2>
+          <form id="settingsForm" class="form-grid">
+            <div class="field">
+              <label for="siteAbout">About text (shown on homepage)</label>
+              <textarea id="siteAbout"></textarea>
+            </div>
+            <div class="field">
+              <label for="siteEditorNote">Editor's note (shown near the top of the homepage)</label>
+              <textarea id="siteEditorNote"></textarea>
+            </div>
+            <div class="form-grid two-col">
+              <div class="field">
+                <label for="siteContactEmail">Contact email</label>
+                <input type="email" id="siteContactEmail">
+              </div>
+              <div class="field">
+                <label for="siteContactPhone">Contact phone (optional)</label>
+                <input type="text" id="siteContactPhone">
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Save settings</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h2>Change admin password</h2>
+          <form id="passwordForm" class="form-grid">
+            <div class="field">
+              <label for="newPassword">New password</label>
+              <input type="password" id="newPassword" minlength="6">
+            </div>
+            <button type="submit" class="btn btn-outline">Update password</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h2>Beehiiv newsletter</h2>
+          <p class="hint">Paste the embed code from your beehiiv dashboard (Publication → Subscribe Forms → Embed). Once saved, it replaces the built-in subscribe box everywhere on the site, and beehiiv handles subscriptions, delivery, and new-post notifications for you.</p>
+          <div class="field">
+            <label for="beehiivEmbedInput">Beehiiv embed code</label>
+            <textarea id="beehiivEmbedInput" rows="6" placeholder='<iframe src="https://embeds.beehiiv.com/xxxxxxxx" ...></iframe>'></textarea>
+            <p class="hint">Leave blank to keep using the built-in subscribe form instead.</p>
+          </div>
+          <button type="submit" form="settingsForm" class="btn btn-primary">Save settings</button>
+        </div>
+
+        <div class="card">
+          <h2>Google Analytics</h2>
+          <p class="hint">Paste your GA4 Measurement ID (looks like G-XXXXXXX). It will load automatically on every page — no code changes needed.</p>
+          <div class="field">
+            <label for="gaIdInput">GA4 Measurement ID</label>
+            <input type="text" id="gaIdInput" placeholder="G-XXXXXXX">
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Firebase</h2>
+          <p class="hint">Paste your Firebase web app config as JSON. Once added, Firebase Analytics loads automatically — a good next step is moving posts/subscribers into Firestore so they sync across devices.</p>
+          <div class="field">
+            <label for="firebaseConfigInput">Firebase config (JSON)</label>
+            <textarea id="firebaseConfigInput" placeholder='{"apiKey":"...","authDomain":"...","projectId":"..."}'></textarea>
+          </div>
+          <button type="submit" form="settingsForm" class="btn btn-primary">Save settings</button>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
 </body>
 </html>

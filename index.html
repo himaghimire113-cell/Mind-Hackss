@@ -3,76 +3,180 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cosmic Explorer — Dispatches from the Edge of the Universe</title>
-<meta name="description" content="A blog of transmissions from deep space — stories, sightings, and signals.">
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-N210L77JXK"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-N210L77JXK');
-</script>
-
+<title>Health Years — Clear health guidance for life after 50</title>
+<meta name="description" content="Health Years publishes plain-language, well-sourced articles and videos on staying healthy, active, and independent after 50.">
 <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body data-page="public">
 
-<div class="space-bg" aria-hidden="true">
-  <div class="stars stars--far"></div>
-  <div class="stars stars--mid"></div>
-  <div class="stars stars--near"></div>
-  <div class="nebula nebula--cyan"></div>
-  <div class="nebula nebula--purple"></div>
-  <div class="shooting-star shooting-star--one"></div>
-  <div class="shooting-star shooting-star--two"></div>
-</div>
+  <a href="#main" class="sr-only">Skip to main content</a>
 
-<header class="site-header">
-  <a href="index.html" class="brand">
-    <span class="brand-dot"></span>
-    COSMIC <span>EXPLORER</span>
-  </a>
-  <a href="admin.html" class="nav-link">Admin</a>
-</header>
+  <!-- ============ HEADER ============ -->
+  <header class="site-header">
+    <div class="header-inner">
+      <button class="hamburger-btn" aria-label="Open menu" aria-controls="siteNav" aria-expanded="false">☰</button>
 
-<section class="hero">
-  <p class="hero-eyebrow">Transmission Log</p>
-  <h1>Dispatches from the<br>edge of the universe</h1>
-  <p>Field notes, sightings, and stories from an ongoing journey through deep space.</p>
+      <a href="#top" class="brand">
+        <span class="brand-mark">HY</span>
+        <span class="brand-text">
+          <span class="brand-name">Health Years</span>
+          <span class="brand-tag">Clear guidance for living well</span>
+        </span>
+      </a>
 
-  <div class="orbit-system" aria-hidden="true">
-    <div class="orbit-core"></div>
-    <div class="orbit-ring orbit-ring--1"><div class="planet planet--cyan"></div></div>
-    <div class="orbit-ring orbit-ring--2"><div class="planet planet--gold"></div></div>
-    <div class="orbit-ring orbit-ring--3"><div class="planet planet--purple"></div></div>
-  </div>
-</section>
+      <div class="reading-tools">
+        <span class="reading-label">Text size</span>
+        <button data-size="normal" aria-label="Normal text size">A</button>
+        <button data-size="large" aria-label="Large text size">A</button>
+        <button data-size="xlarge" aria-label="Extra large text size">A</button>
+      </div>
+    </div>
+  </header>
 
-<main>
-  <h2 class="section-label">Latest Transmissions</h2>
-  <div class="post-grid" id="postGrid">
-    <div class="loading-state">Scanning the galaxy for posts…</div>
-  </div>
-</main>
+  <!-- ============ SLIDE-IN NAV ============ -->
+  <div class="nav-overlay"></div>
+  <nav id="siteNav" class="site-nav" aria-hidden="true" aria-label="Main menu">
+    <button class="nav-close" aria-label="Close menu">✕</button>
+    <ul>
+      <li><a href="#posts">Blog Posts</a></li>
+      <li><a href="#videos">Videos</a></li>
+      <li><a href="#about">About Health Years</a></li>
+      <li><a href="#newsletter">Email Newsletter</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <p class="nav-footer">Are you the site editor? <a href="admin.html">Go to the admin panel</a></p>
+  </nav>
 
-<footer>
-  Broadcasting from somewhere past the asteroid belt · Cosmic Explorer
-</footer>
+  <main id="main">
+    <!-- ============ HERO / SEARCH ============ -->
+    <section class="hero" id="top">
+      <div class="container">
+        <span class="section-eyebrow">Health Years</span>
+        <h1>Trusted, easy-to-read health guidance</h1>
+        <p class="lead">Practical articles and videos on staying healthy, active, and independent — written in plain language, with no jargon.</p>
+        <form class="search-form" role="search">
+          <label for="searchInput" class="sr-only">Search articles</label>
+          <input id="searchInput" type="search" placeholder="Search articles — try “blood pressure” or “balance”">
+          <button type="submit">Search</button>
+        </form>
+      </div>
+    </section>
 
-<!-- Full post modal -->
-<div class="modal-overlay" id="postModal">
-  <div class="modal-box">
-    <button class="modal-close" id="modalCloseBtn" aria-label="Close">✕</button>
-    <h2 id="modalTitle"></h2>
-    <span class="post-date" id="modalDate"></span>
-    <div class="modal-media" id="modalMedia"></div>
-    <div class="modal-body" id="modalBody"></div>
-  </div>
-</div>
+    <!-- ============ EDITOR'S NOTE ============ -->
+    <section class="editor-note-section">
+      <div class="container">
+        <div class="editor-note-card">
+          <span class="editor-note-icon">✎</span>
+          <p id="editorNoteText">Every article here is written to be read in a few quiet minutes.</p>
+        </div>
+      </div>
+    </section>
 
-<script src="https://cdn.jsdelivr.net/npm/appwrite@26.1.0"></script>
-<script src="script.js"></script>
+    <!-- ============ FEATURED ============ -->
+    <section class="featured-section" id="featured">
+      <div class="container">
+        <span class="section-eyebrow">Editor's pick</span>
+        <h2>Featured article</h2>
+        <div id="featuredPost"></div>
+      </div>
+    </section>
+
+    <!-- ============ POSTS ============ -->
+    <section class="posts-section" id="posts">
+      <div class="container">
+        <div class="posts-header">
+          <div>
+            <span class="section-eyebrow">Articles</span>
+            <h2>Latest from Health Years</h2>
+          </div>
+        </div>
+        <div id="topicFilters" class="topic-filters"></div>
+        <div id="postsGrid" class="posts-grid"></div>
+      </div>
+    </section>
+
+    <!-- ============ VIDEOS ============ -->
+    <section class="videos-section" id="videos">
+      <div class="container">
+        <span class="section-eyebrow">Watch</span>
+        <h2>Videos</h2>
+        <div id="videosGrid" class="videos-grid"></div>
+      </div>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section class="about-section" id="about">
+      <div class="container about-grid">
+        <div>
+          <span class="section-eyebrow">About</span>
+          <h2>About Health Years</h2>
+          <p id="aboutText">Health Years publishes plain-language, well-sourced articles on staying healthy, active, and independent after 50.</p>
+        </div>
+        <div class="info-box">
+          <h3>Why we write this way</h3>
+          <p>Large, legible type. Short sentences. No pop-ups fighting for your attention. Just information you can trust and act on.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ NEWSLETTER ============ -->
+    <section class="newsletter-section" id="newsletter">
+      <div class="container">
+        <div class="newsletter-card">
+          <span class="section-eyebrow">Stay in touch</span>
+          <h2>Get new articles by email</h2>
+          <p>We'll let you know whenever a new article or video is published. No spam, unsubscribe any time.</p>
+         <form id="newsletterForm" class="newsletter-form" data-post-newsletter>
+ <label for="emailInput" class="sr-only">Email address</label>
+   <input type="email" id="emailInput" placeholder="Enter your email" name="email" required>
+  <button type="submit">Join Now</button>
+
+          </form>
+          <div id="beehiivEmbedWrap" style="display:none"></div>
+          <p class="form-note">Your email is stored securely and only used for Health Years updates.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="contact-section" id="contact">
+      <div class="container">
+        <span class="section-eyebrow">Get in touch</span>
+        <h2>Contact us</h2>
+        <div class="info-box" style="max-width:480px">
+          <ul class="contact-list">
+            <li>✉️ <a id="contactEmail" href="mailto:hello@healthyears.example">hello@healthyears.example</a></li>
+            <li>💬 We read every message and reply within a few days.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <strong style="font-size:1.2rem">Health Years</strong>
+        <p style="max-width:320px;color:rgba(255,255,255,.75)">Clear, trustworthy health guidance for life after 50.</p>
+      </div>
+      <div>
+        <div style="display:flex;flex-direction:column;gap:.4rem">
+          <a href="#posts">Blog Posts</a>
+          <a href="#videos">Videos</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+          <a href="admin.html">Admin panel</a>
+        </div>
+      </div>
+    </div>
+    <div class="container footer-note">© <span id="year"></span> Health Years. All rights reserved.</div>
+  </footer>
+
+  <!-- ============ POST MODAL ============ -->
+  <div id="postModal" class="post-modal" aria-hidden="true"></div>
+
+  <script src="app.js"></script>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
 </html>

@@ -1,0 +1,55 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAdmin() {
+      return request.auth != null &&
+        exists(/databases/$(database)/documents/authorizedAdmins/$(request.auth.token.email));
+    }
+
+    // Blog posts
+    match /posts/{postId} {
+      allow read: if resource.data.status == 'published' || isAdmin();
+      allow create, delete: if isAdmin();
+      // Allow admins to edit anything. Allow the public to ONLY touch the
+      // "likes" counter (so the like button works without an admin login).
+      allow update: if isAdmin() ||
+        (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likes']));
+
+      match /comments/{commentId} {
+        allow read: if true;
+        allow create: if request.resource.data.text is string &&
+                         request.resource.data.text.size() > 0 &&
+                         request.resource.data.text.size() < 2000;
+        allow delete: if isAdmin();
+        allow update: if false;
+      }
+    }
+
+    // Newsletter subscribers
+    match /subscribers/{subId} {
+      allow create: if request.resource.data.email is string;
+      allow read, delete: if isAdmin();
+      allow update: if false;
+    }
+
+    // Contact form messages
+    match /contactMessages/{msgId} {
+      allow create: if request.resource.data.email is string &&
+                       request.resource.data.message is string;
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Site-wide appearance/settings (colors, fonts, GA id, etc.)
+    match /siteSettings/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Who is allowed into the admin panel (doc ID = admin's email)
+    match /authorizedAdmins/{email} {
+      allow read: if isAdmin();
+      allow write: if isAdmin();
+    }
+  }
+}

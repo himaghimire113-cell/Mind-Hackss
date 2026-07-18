@@ -3,180 +3,98 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Health Years — Clear health guidance for life after 50</title>
-<meta name="description" content="Health Years publishes plain-language, well-sourced articles and videos on staying healthy, active, and independent after 50.">
-<link rel="stylesheet" href="style.css">
+<title>Sound Living | Finance &amp; Health Insight You Can Trust</title>
+<meta name="description" content="Clear, well-sourced guidance on money and health, written for people who want straight answers.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@600;700&family=Public+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
 </head>
-<body data-page="public">
+<body>
 
-  <a href="#main" class="sr-only">Skip to main content</a>
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<nav class="nav-drawer" id="navDrawer" aria-label="Site navigation">
+  <button class="nav-drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
+  <h2>Menu</h2>
+  <a href="#/">Home</a>
+  <a href="#/category/finance">Finance</a>
+  <a href="#/category/health">Health</a>
+  <a href="#/featured">Featured Posts</a>
+  <a href="#/about">About This Site</a>
+  <a href="#/contact">Contact</a>
+  <a href="admin.html">Admin Panel</a>
+</nav>
 
-  <!-- ============ HEADER ============ -->
-  <header class="site-header">
-    <div class="header-inner">
-      <button class="hamburger-btn" aria-label="Open menu" aria-controls="siteNav" aria-expanded="false">☰</button>
-
-      <a href="#top" class="brand">
-        <span class="brand-mark">HY</span>
-        <span class="brand-text">
-          <span class="brand-name">Health Years</span>
-          <span class="brand-tag">Clear guidance for living well</span>
-        </span>
-      </a>
-
-      <div class="reading-tools">
-        <span class="reading-label">Text size</span>
-        <button data-size="normal" aria-label="Normal text size">A</button>
-        <button data-size="large" aria-label="Large text size">A</button>
-        <button data-size="xlarge" aria-label="Extra large text size">A</button>
-      </div>
+<header class="masthead">
+  <div class="masthead-row">
+    <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <a href="#/" class="site-title">
+      Sound Living
+      <small>Finance &amp; Health, Explained Plainly</small>
+    </a>
+    <div class="header-actions"></div>
+  </div>
+  <div class="trust-bar">
+    <div class="container">
+      <span><span class="dot">&#10003;</span> Fact-checked articles</span>
+      <span><span class="dot">&#10003;</span> Written for clarity, not jargon</span>
+      <span><span class="dot">&#10003;</span> Updated regularly</span>
     </div>
-  </header>
+  </div>
+</header>
 
-  <!-- ============ SLIDE-IN NAV ============ -->
-  <div class="nav-overlay"></div>
-  <nav id="siteNav" class="site-nav" aria-hidden="true" aria-label="Main menu">
-    <button class="nav-close" aria-label="Close menu">✕</button>
-    <ul>
-      <li><a href="#posts">Blog Posts</a></li>
-      <li><a href="#videos">Videos</a></li>
-      <li><a href="#about">About Health Years</a></li>
-      <li><a href="#newsletter">Email Newsletter</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <p class="nav-footer">Are you the site editor? <a href="admin.html">Go to the admin panel</a></p>
-  </nav>
+<main id="app">
+  <!-- Views are rendered here by js/main.js based on the URL hash -->
+</main>
 
-  <main id="main">
-    <!-- ============ HERO / SEARCH ============ -->
-    <section class="hero" id="top">
-      <div class="container">
-        <span class="section-eyebrow">Health Years</span>
-        <h1>Trusted, easy-to-read health guidance</h1>
-        <p class="lead">Practical articles and videos on staying healthy, active, and independent — written in plain language, with no jargon.</p>
-        <form class="search-form" role="search">
-          <label for="searchInput" class="sr-only">Search articles</label>
-          <input id="searchInput" type="search" placeholder="Search articles — try “blood pressure” or “balance”">
-          <button type="submit">Search</button>
-        </form>
-      </div>
-    </section>
+<div class="newsletter container" id="newsletterBlock">
+  <span class="section-heading eyebrow" style="display:block;text-align:center;">Stay Informed</span>
+  <h2>Get one trustworthy email a week</h2>
+  <p>Practical finance and health guidance, no noise, unsubscribe anytime.</p>
+  <div id="newsletterMsg"></div>
+  <form id="newsletterForm">
+    <input type="email" id="newsletterEmail" placeholder="Your email address" required aria-label="Email address">
+    <button type="submit" class="btn">Subscribe</button>
+  </form>
+</div>
 
-    <!-- ============ EDITOR'S NOTE ============ -->
-    <section class="editor-note-section">
-      <div class="container">
-        <div class="editor-note-card">
-          <span class="editor-note-icon">✎</span>
-          <p id="editorNoteText">Every article here is written to be read in a few quiet minutes.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ FEATURED ============ -->
-    <section class="featured-section" id="featured">
-      <div class="container">
-        <span class="section-eyebrow">Editor's pick</span>
-        <h2>Featured article</h2>
-        <div id="featuredPost"></div>
-      </div>
-    </section>
-
-    <!-- ============ POSTS ============ -->
-    <section class="posts-section" id="posts">
-      <div class="container">
-        <div class="posts-header">
-          <div>
-            <span class="section-eyebrow">Articles</span>
-            <h2>Latest from Health Years</h2>
-          </div>
-        </div>
-        <div id="topicFilters" class="topic-filters"></div>
-        <div id="postsGrid" class="posts-grid"></div>
-      </div>
-    </section>
-
-    <!-- ============ VIDEOS ============ -->
-    <section class="videos-section" id="videos">
-      <div class="container">
-        <span class="section-eyebrow">Watch</span>
-        <h2>Videos</h2>
-        <div id="videosGrid" class="videos-grid"></div>
-      </div>
-    </section>
-
-    <!-- ============ ABOUT ============ -->
-    <section class="about-section" id="about">
-      <div class="container about-grid">
-        <div>
-          <span class="section-eyebrow">About</span>
-          <h2>About Health Years</h2>
-          <p id="aboutText">Health Years publishes plain-language, well-sourced articles on staying healthy, active, and independent after 50.</p>
-        </div>
-        <div class="info-box">
-          <h3>Why we write this way</h3>
-          <p>Large, legible type. Short sentences. No pop-ups fighting for your attention. Just information you can trust and act on.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ NEWSLETTER ============ -->
-    <section class="newsletter-section" id="newsletter">
-      <div class="container">
-        <div class="newsletter-card">
-          <span class="section-eyebrow">Stay in touch</span>
-          <h2>Get new articles by email</h2>
-          <p>We'll let you know whenever a new article or video is published. No spam, unsubscribe any time.</p>
-         <form id="newsletterForm" class="newsletter-form" data-post-newsletter>
- <label for="emailInput" class="sr-only">Email address</label>
-   <input type="email" id="emailInput" placeholder="Enter your email" name="email" required>
-  <button type="submit">Join Now</button>
-
-          </form>
-          <div id="beehiivEmbedWrap" style="display:none"></div>
-          <p class="form-note">Your email is stored securely and only used for Health Years updates.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ CONTACT ============ -->
-    <section class="contact-section" id="contact">
-      <div class="container">
-        <span class="section-eyebrow">Get in touch</span>
-        <h2>Contact us</h2>
-        <div class="info-box" style="max-width:480px">
-          <ul class="contact-list">
-            <li>✉️ <a id="contactEmail" href="mailto:hello@healthyears.example">hello@healthyears.example</a></li>
-            <li>💬 We read every message and reply within a few days.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- ============ FOOTER ============ -->
-  <footer class="site-footer">
-    <div class="container footer-grid">
-      <div>
-        <strong style="font-size:1.2rem">Health Years</strong>
-        <p style="max-width:320px;color:rgba(255,255,255,.75)">Clear, trustworthy health guidance for life after 50.</p>
-      </div>
-      <div>
-        <div style="display:flex;flex-direction:column;gap:.4rem">
-          <a href="#posts">Blog Posts</a>
-          <a href="#videos">Videos</a>
-          <a href="#about">About</a>
-          <a href="#contact">Contact</a>
-          <a href="admin.html">Admin panel</a>
-        </div>
-      </div>
+<section class="container contact-section" id="contact">
+  <div class="section-heading"><div><span class="eyebrow">Get In Touch</span><h2>Contact Us</h2></div></div>
+  <div class="contact-grid">
+    <div>
+      <div id="contactMsg"></div>
+      <form id="contactForm">
+        <label for="cName">Name</label>
+        <input type="text" id="cName" required>
+        <label for="cEmail">Email</label>
+        <input type="email" id="cEmail" required>
+        <label for="cMessage">Message</label>
+        <textarea id="cMessage" required></textarea>
+        <button type="submit" class="btn full">Send Message</button>
+      </form>
     </div>
-    <div class="container footer-note">© <span id="year"></span> Health Years. All rights reserved.</div>
-  </footer>
+    <div class="contact-info">
+      <h3>We'd Love to Hear From You</h3>
+      <p>Have a question about a post, a topic suggestion, or feedback? Send us a message and we'll respond personally.</p>
+      <p>You can also reach us directly at:<br><a href="mailto:hello@soundliving.example">hello@soundliving.example</a></p>
+    </div>
+  </div>
+</section>
 
-  <!-- ============ POST MODAL ============ -->
-  <div id="postModal" class="post-modal" aria-hidden="true"></div>
+<footer>
+  <div class="container">
+    <p>&copy; <span id="year"></span> Sound Living. All information is for educational purposes and is not personal financial or medical advice.</p>
+    <p><a href="#/about">About</a> &middot; <a href="#/contact">Contact</a> &middot; <a href="admin.html">Admin</a></p>
+  </div>
+</footer>
 
-  <script src="app.js"></script>
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<!-- Firebase (CDN, no build tools required) -->
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script src="js/firebase-init.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>

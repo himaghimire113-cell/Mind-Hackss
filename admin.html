@@ -66,18 +66,31 @@
         <label for="siteName">Site Name</label>
         <input type="text" id="siteName">
         <label for="siteTagline">Tagline</label>
-        <input type="text" id="siteTagline">
+            <label for="pTitle">Title</label>
+    <input type="text" id="pTitle">
 
-        <div class="field-row">
-          <div>
-            <label for="primaryColor">Primary Color (headings, header)</label>
-            <div class="color-swatch-row"><input type="color" id="primaryColor"><span id="primaryColorHex"></span></div>
-          </div>
-          <div>
-            <label for="accentColor">Accent Color (health tag, highlights)</label>
-            <div class="color-swatch-row"><input type="color" id="accentColor"><span id="accentColorHex"></span></div>
-          </div>
-        </div>
+    <div class="field-row">
+      <div>
+        <label for="pAuthorName">Written By</label>
+        <input type="text" id="pAuthorName" placeholder="e.g. Jane Smith">
+      </div>
+      <div>
+        <label for="pStatus">Status</label>
+        <select id="pStatus"><option value="draft">Draft</option><option value="published">Published</option></select>
+      </div>
+    </div>
+
+    <label for="pCategory">Category</label>
+    <input type="text" id="pCategory" list="categorySuggestions" placeholder="e.g. Finance, Health, Fitness, Investing...">
+    <datalist id="categorySuggestions">
+      <option value="Finance"></option>
+      <option value="Health"></option>
+      <option value="Fitness"></option>
+      <option value="Nutrition"></option>
+      <option value="Investing"></option>
+      <option value="Retirement"></option>
+    </datalist>
+
 
         <label for="fontSizeSelect">Base Text Size (affects entire site — larger is easier to read)</label>
         <select id="fontSizeSelect">

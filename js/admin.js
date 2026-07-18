@@ -133,9 +133,11 @@ async function openEditor(id) {
     document.getElementById("editorTitle").textContent = "Edit Post";
     const doc = await db.collection("posts").doc(id).get();
     const p = doc.data();
-    document.getElementById("pTitle").value = p.title || "";
-    document.getElementById("pCategory").value = p.category || "finance";
+        document.getElementById("pTitle").value = p.title || "";
+    document.getElementById("pAuthorName").value = p.authorName || "";
+    document.getElementById("pCategory").value = p.category || "";
     document.getElementById("pStatus").value = p.status || "draft";
+
     document.getElementById("pSummary").value = p.summary || "";
     document.getElementById("pContent").value = p.content || "";
     document.getElementById("pCoverImage").value = p.coverImageUrl || "";
@@ -146,9 +148,10 @@ async function openEditor(id) {
   } else {
     document.getElementById("editorTitle").textContent = "New Post";
     ["pTitle","pSummary","pContent","pCoverImage","pVideoUrl"].forEach(id2 => document.getElementById(id2).value = "");
-    document.getElementById("pCategory").value = "finance";
+        ["pTitle","pAuthorName","pSummary","pContent","pCoverImage","pVideoUrl"].forEach(id2 => document.getElementById(id2).value = "");
+    document.getElementById("pCategory").value = "";
     document.getElementById("pStatus").value = "draft";
-    document.getElementById("pFeatured").checked = false;
+
   }
   renderImageUrlRows();
   renderAffiliateRows();

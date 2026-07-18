@@ -60,7 +60,7 @@ async function render() {
   app.innerHTML = `<div class="loading-spinner"></div>`;
 
   if (parts[0] === "post" && parts[1]) return renderPost(parts[1]);
-  if (parts[0] === "category" && parts[1]) return renderHome(parts[1]);
+  if (parts[0] === "category" && parts[1]) return renderHome(decodeURIComponent(parts[1]));
   if (parts[0] === "featured") return renderHome(null, true);
   if (parts[0] === "about") return renderAbout();
   if (parts[0] === "contact") { document.getElementById("contact").scrollIntoView(); return renderHome(); }
@@ -78,8 +78,11 @@ async function renderHome(categoryFilter = null, featuredOnly = false) {
 
   const featured = posts.filter(p => p.featured);
   let shown = posts;
-  if (categoryFilter) shown = posts.filter(p => p.category === categoryFilter);
+  if (categoryFilter) shown = posts.filter(p => (p.category || "").toLowerCase() === categoryFilter.toLowerCase());
   if (featuredOnly) shown = featured;
+
+  // Build the filter bar from whatever categories actually exist on published posts
+  const categories = [...new Set(posts.map(p => p.category).filter(Boolean))].sort();
 
   app.innerHTML = `
     <section class="hero">
@@ -103,14 +106,20 @@ async function renderHome(categoryFilter = null, featuredOnly = false) {
       </div>
       <div class="filter-bar">
         <button class="filter-btn ${!categoryFilter && !featuredOnly ? "active" : ""}" onclick="location.hash='#/'">All</button>
-        <button class="filter-btn ${categoryFilter === "finance" ? "active" : ""}" onclick="location.hash='#/category/finance'">Finance</button>
-        <button class="filter-btn ${categoryFilter === "health" ? "active" : ""}" onclick="location.hash='#/category/health'">Health</button>
+        ${categories.map(c => `
+          <button class="filter-btn ${categoryFilter && categoryFilter.toLowerCase() === c.toLowerCase() ? "active" : ""}" onclick="location.hash='#/category/${encodeURIComponent(c)}'">${escapeHTML(c)}</button>
+        `).join("")}
       </div>
       <div class="blog-grid" id="blogGrid">
         ${shown.length ? shown.map(cardHTML).join("") : `<div class="empty-state">No posts here yet — check back soon.</div>`}
       </div>
     </div>
   `;
+}
+
+function categoryClass(category) {
+  const c = (category || "").toLowerCase();
+  return (c === "finance" || c === "health") ? c : "other";
 }
 
 function cardHTML(p) {
@@ -120,7 +129,7 @@ function cardHTML(p) {
     <a class="card" href="#/post/${p.id}">
       <img class="card-img" src="${p.coverImageUrl || fallbackImg(p.category)}" alt="" loading="lazy">
       <div class="card-body">
-        <span class="card-category ${p.category}">${p.category === "finance" ? "Finance" : "Health"}</span>
+        <span class="card-category ${categoryClass(p.category)}">${escapeHTML(p.category || "General")}</span>
         <div class="card-title">${escapeHTML(p.title || "Untitled")}</div>
         <p class="card-summary">${escapeHTML(summary)}${(p.summary || "").length > 130 ? "…" : ""}</p>
         <div class="card-meta">${date} &middot; ${p.likes || 0} likes</div>
@@ -129,7 +138,7 @@ function cardHTML(p) {
 }
 
 function fallbackImg(category) {
-  return category === "health"
+  return (category || "").toLowerCase() === "health"
     ? "https://images.unsplash.com/photo-1505576399279-565b52d4ac71?w=600&q=60"
     : "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&q=60";
 }
@@ -141,9 +150,9 @@ async function renderPost(id) {
   const doc = await db.collection("posts").doc(id).get();
   if (!doc.exists) { app.innerHTML = `<div class="container empty-state">Post not found.</div>`; return; }
   const p = { id: doc.id, ...doc.data() };
-  const date = p.createdAt ? new Date(p.createdAt.seconds * 1000).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }) : "";
   const likedKey = "liked_" + id;
   const alreadyLiked = localStorage.getItem(likedKey);
+  const byline = p.authorName && p.authorName.trim() ? p.authorName.trim() : "Sound Living Editorial";
 
   const videoEmbed = p.videoEmbedUrl ? `
     <div class="post-video"><iframe src="${toEmbedUrl(p.videoEmbedUrl)}" allowfullscreen title="Post video"></iframe></div>` : "";
@@ -160,13 +169,16 @@ async function renderPost(id) {
   app.innerHTML = `
     <div class="container post-view">
       <a class="back-link" href="#/">&larr; Back to all posts</a>
-      <span class="card-category ${p.category}">${p.category === "finance" ? "Finance" : "Health"}</span>
+      <span class="card-category ${categoryClass(p.category)}">${escapeHTML(p.category || "General")}</span>
       <h1>${escapeHTML(p.title || "")}</h1>
-      <div class="card-meta">By ${escapeHTML(p.author || "Sound Living Editorial")} &middot; ${date}</div>
-      ${p.coverImageUrl ? `<img class="post-hero-img" src="${p.coverImageUrl}" alt="">` : ""}
-      ${videoEmbed}
-      <div class="post-content">${p.content || ""}</div>
-      ${extraImages}
+      <div class="author-line">By ${escapeHTML(byline)} <span class="verified-badge" title="Verified author">&#10003;</span></div>
+
+      <div class="post-media">
+        ${p.coverImageUrl ? `<img class="post-hero-img" src="${p.coverImageUrl}" alt="">` : ""}
+        ${videoEmbed}
+        <div class="post-content">${p.content || ""}</div>
+        ${extraImages}
+      </div>
       ${affiliateBox}
 
       <div class="post-actions">
@@ -294,28 +306,9 @@ function renderAbout() {
 // ============================================================
 document.getElementById("newsletterForm").addEventListener("submit", async (e) => {
   e.preventDefault();
-  const email = document.getElementById("newsletterEmail").value.trim();
-  const msg = document.getElementById("newsletterMsg");
-  try {
-    await db.collection("subscribers").add({ email, subscribedAt: firebase.firestore.FieldValue.serverTimestamp() });
-    msg.innerHTML = `<div class="form-msg success">You're subscribed. Thank you!</div>`;
-    document.getElementById("newsletterForm").reset();
-    gtag("event", "newsletter_signup");
-  } catch (err) {
-    msg.innerHTML = `<div class="form-msg error">Something went wrong. Please try again.</div>`;
-  }
-});
-
-// ============================================================
-// CONTACT FORM
-// ============================================================
-document.getElementById("newsletterForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
   const email = document.getElementById("newsletterEmail").value.trim().toLowerCase();
   const msg = document.getElementById("newsletterMsg");
   try {
-    // Using the email itself as the document ID means the same email
-    // can never be stored twice — a repeat signup is rejected below.
     await db.collection("subscribers").doc(email).set({
       email,
       subscribedAt: firebase.firestore.FieldValue.serverTimestamp()
@@ -333,6 +326,24 @@ document.getElementById("newsletterForm").addEventListener("submit", async (e) =
   }
 });
 
+// ============================================================
+// CONTACT FORM
+// ============================================================
+document.getElementById("contactForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const name = document.getElementById("cName").value.trim();
+  const email = document.getElementById("cEmail").value.trim();
+  const message = document.getElementById("cMessage").value.trim();
+  const msg = document.getElementById("contactMsg");
+  try {
+    await db.collection("contactMessages").add({ name, email, message, read: false, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+    msg.innerHTML = `<div class="form-msg success">Message sent — we'll be in touch soon.</div>`;
+    document.getElementById("contactForm").reset();
+    gtag("event", "contact_form_submit");
+  } catch (err) {
+    msg.innerHTML = `<div class="form-msg error">Something went wrong. Please try again.</div>`;
+  }
+});
 
 // ============================================================
 // UTILITY

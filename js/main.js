@@ -309,21 +309,30 @@ document.getElementById("newsletterForm").addEventListener("submit", async (e) =
 // ============================================================
 // CONTACT FORM
 // ============================================================
-document.getElementById("contactForm").addEventListener("submit", async (e) => {
+document.getElementById("newsletterForm").addEventListener("submit", async (e) => {
   e.preventDefault();
-  const name = document.getElementById("cName").value.trim();
-  const email = document.getElementById("cEmail").value.trim();
-  const message = document.getElementById("cMessage").value.trim();
-  const msg = document.getElementById("contactMsg");
+  const email = document.getElementById("newsletterEmail").value.trim().toLowerCase();
+  const msg = document.getElementById("newsletterMsg");
   try {
-    await db.collection("contactMessages").add({ name, email, message, read: false, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
-    msg.innerHTML = `<div class="form-msg success">Message sent — we'll be in touch soon.</div>`;
-    document.getElementById("contactForm").reset();
-    gtag("event", "contact_form_submit");
+    // Using the email itself as the document ID means the same email
+    // can never be stored twice — a repeat signup is rejected below.
+    await db.collection("subscribers").doc(email).set({
+      email,
+      subscribedAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    msg.innerHTML = `<div class="form-msg success">You're subscribed. Thank you!</div>`;
+    document.getElementById("newsletterForm").reset();
+    gtag("event", "newsletter_signup");
   } catch (err) {
-    msg.innerHTML = `<div class="form-msg error">Something went wrong. Please try again.</div>`;
+    if (err.code === "permission-denied") {
+      msg.innerHTML = `<div class="form-msg success">You're already on the list — thank you!</div>`;
+      document.getElementById("newsletterForm").reset();
+    } else {
+      msg.innerHTML = `<div class="form-msg error">Something went wrong. Please try again.</div>`;
+    }
   }
 });
+
 
 // ============================================================
 // UTILITY

@@ -301,11 +301,20 @@ button {
   margin-bottom: 24px;
 }
 .post-view h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); }
-.post-hero-img { width: 100%; max-height: 420px; object-fit: cover; border-radius: var(--radius); margin: 20px 0; }
+.post-media { box-sizing: border-box; width: 100%; max-width: 100%; }
+.post-hero-img { width: 100%; max-height: 420px; object-fit: cover; border-radius: var(--radius); margin: 20px 0; box-sizing: border-box; }
 .post-video { position: relative; width: 100%; padding-top: 56.25%; margin: 24px 0; border-radius: var(--radius); overflow: hidden; }
 .post-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .post-content { font-size: 1.15rem; line-height: 1.75; max-width: 760px; }
-.post-content img { border-radius: var(--radius); margin: 16px 0; }
+.post-content img { border-radius: var(--radius); margin: 16px 0; max-width: 100%; box-sizing: border-box; }
+
+.author-line { display: flex; align-items: center; gap: 6px; color: var(--color-text-muted); font-size: 0.95rem; margin: 10px 0 20px; }
+.verified-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--color-green); color: #fff; font-size: 0.7rem; line-height: 1;
+}
+.card-category.other { background: var(--color-surface); color: var(--color-text-muted); }
 
 .affiliate-box {
   background: #fdf6ea;

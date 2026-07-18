@@ -3,26 +3,44 @@ const dashboardView = document.getElementById("dashboardView");
 let currentAdminEmail = null;
 
 // ============================================================
-// AUTH GATE
+// STARTUP SAFETY CHECK — shows a visible message instead of a
+// silently broken page if Firebase failed to load/initialize
 // ============================================================
-auth.onAuthStateChanged(async (user) => {
-  if (!user) { showLogin(); return; }
+try {
+  if (typeof firebase === "undefined") throw new Error("Firebase SDK scripts did not load (check your internet connection or CDN access).");
+  if (typeof auth === "undefined" || typeof db === "undefined") throw new Error("firebase-init.js did not run correctly — auth/db were never created.");
 
-  // Secondary check: must also be listed in authorizedAdmins
-  const adminDoc = await db.collection("authorizedAdmins").doc(user.email).get();
-  if (!adminDoc.exists) {
-    document.getElementById("loginMsg").innerHTML =
-      `<div class="form-msg error">This account is not authorized for admin access. Ask an existing admin to grant you access.</div>`;
-    await auth.signOut();
-    return;
-  }
+  // ============================================================
+  // AUTH GATE
+  // ============================================================
+  auth.onAuthStateChanged(async (user) => {
+    try {
+      if (!user) { showLogin(); return; }
 
-  currentAdminEmail = user.email;
-  document.getElementById("whoami").textContent = user.email;
-  showDashboard();
-  loadPosts();
-  loadAppearance();
-});
+      // Secondary check: must also be listed in authorizedAdmins
+      const adminDoc = await db.collection("authorizedAdmins").doc(user.email).get();
+      if (!adminDoc.exists) {
+        document.getElementById("loginMsg").innerHTML =
+          `<div class="form-msg error">This account is not authorized for admin access. Ask an existing admin to grant you access.</div>`;
+        await auth.signOut();
+        return;
+      }
+
+      currentAdminEmail = user.email;
+      document.getElementById("whoami").textContent = user.email;
+      showDashboard();
+      loadPosts();
+      loadAppearance();
+    } catch (err) {
+      document.getElementById("loginMsg").innerHTML =
+        `<div class="form-msg error">Startup error: ${err.message}</div>`;
+    }
+  });
+} catch (err) {
+  document.getElementById("loginMsg").innerHTML =
+    `<div class="form-msg error">Startup error: ${err.message}</div>`;
+  console.error(err);
+}
 
 function showLogin() {
   loginView.classList.remove("hidden");
@@ -371,3 +389,4 @@ function escapeHTML(str) {
   return String(str || "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 }
 function escapeAttr(str) { return escapeHTML(str); }
+

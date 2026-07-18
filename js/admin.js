@@ -191,11 +191,13 @@ window.removeAffiliateRow = (i) => { affiliateRows.splice(i, 1); renderAffiliate
 document.getElementById("savePostBtn").addEventListener("click", async () => {
   const msg = document.getElementById("editorMsg");
   const title = document.getElementById("pTitle").value.trim();
+  const category = document.getElementById("pCategory").value.trim();
   if (!title) { msg.innerHTML = `<div class="form-msg error">Please add a title.</div>`; return; }
+  if (!category) { msg.innerHTML = `<div class="form-msg error">Please add a category.</div>`; return; }
 
   const data = {
     title,
-    category: document.getElementById("pCategory").value,
+    category,
     status: document.getElementById("pStatus").value,
     summary: document.getElementById("pSummary").value.trim(),
     content: document.getElementById("pContent").value,
@@ -204,9 +206,11 @@ document.getElementById("savePostBtn").addEventListener("click", async () => {
     imageEmbedUrls: imageUrlRows.filter(u => u.trim()),
     affiliateLinks: affiliateRows.filter(r => r.label.trim() && r.url.trim()),
     featured: document.getElementById("pFeatured").checked,
+    authorName: document.getElementById("pAuthorName").value.trim(),
     author: currentAdminEmail,
     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
   };
+
 
   try {
     if (editingPostId) {
